@@ -1,2 +1,4 @@
 .nuget/
 packages/
+QRcodeTool/bin/
+QRcodeTool/obj/
