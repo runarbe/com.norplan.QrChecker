@@ -75,7 +75,6 @@ namespace norplan.adm.qrtoolui
             }
             catch (Exception ex)
             {
-
                 log("Application error: " + ex.Message);
             }
         }
@@ -167,8 +166,6 @@ namespace norplan.adm.qrtoolui
             double mAspectSelection = (double)mRect.Width / (double)mRect.Height;
             pbSelection.Image = mBitmap2.ResizeImage(new Size(pbSelection.Width, (pbSelection.Width / mAspectSelection).AsInt()));
             pbSelection.Refresh();
-
-            //log(mRect.ToString(), true);
 
             if (pbSelection.Image == null)
             {
@@ -324,7 +321,7 @@ namespace norplan.adm.qrtoolui
                     pbMain.Invalidate();
                 }
                 pbMain.Image = mImage;
-                //log(mRow.Filename, true);
+
             }
 
         }
@@ -341,8 +338,10 @@ namespace norplan.adm.qrtoolui
             {
                 tsbtnOpenLink.Enabled = false;
             }
+
             string mDistrictsShapefile = Application.StartupPath + "/Shape/districts.shp";
-            log(mUrl.TestQRCode(mDistrictsShapefile));
+            var mRes = mUrl.TestQRCode(mDistrictsShapefile);
+            log(mRes.ToString());
         }
 
         private bool hasSelection()
