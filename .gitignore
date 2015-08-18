@@ -2,3 +2,4 @@
 packages/
 QRcodeTool/bin/
 QRcodeTool/obj/
+*.suo
