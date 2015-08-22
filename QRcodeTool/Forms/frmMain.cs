@@ -25,7 +25,6 @@ namespace norplan.adm.qrtoolui
         private bool OpenRect;
         private int SelectedRow;
         private string DecodedUrl;
-        private bool IsResizing = false;
 
         private void resetSelection()
         {
@@ -57,7 +56,7 @@ namespace norplan.adm.qrtoolui
             dgvFiles.AutoGenerateColumns = false;
             tsbtnOpenLink.Enabled = false;
             resetSelection();
- 
+
         }
 
         private void pbMain_Paint(object sender, PaintEventArgs e)
@@ -198,17 +197,29 @@ namespace norplan.adm.qrtoolui
                 log("Error: Bitmap error");
                 return null;
             }
+
             var d = new ZXing.BarcodeReader();
-            var r = d.Decode(pBitmap);
-            if (r != null)
+
+            try
             {
-                return r.Text;
+                var r = d.Decode(pBitmap);
+                if (r != null)
+                {
+                    return r.Text;
+                }
+                else
+                {
+                    log("Error: Cound not decode QR-code, try increasing the contrast or alter the selection");
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                log("Error: Cound not decode QR-code, try increasing the contrast or alter the selection");
+                log("An error occurred while trying to decode the QR code");
+                log("Exception: " + ex.Message, true);
                 return null;
             }
+
         }
 
         private void log(object pMsg, bool pAppend = true)
@@ -234,7 +245,7 @@ namespace norplan.adm.qrtoolui
 
         private void tsbtnSelectFolder_Click(object sender, EventArgs e)
         {
-            var mDir = @"D:\Dropbox (Personal)\20 - Middle East projects\Abu Dhabi Addressing (private)\QR-code\ANS Photos";
+            var mDir = @"C:\Users\runarbe\Dropbox (Personal)\20 - Middle East projects\Abu Dhabi Addressing (private)\QR-code\ANS Photos";
             if (Directory.Exists(mDir))
             {
                 dlgSelectImageFolder.SelectedPath = mDir;
@@ -341,7 +352,14 @@ namespace norplan.adm.qrtoolui
 
             string mDistrictsShapefile = Application.StartupPath + "/Shape/districts.shp";
             var mRes = mUrl.TestQRCode(mDistrictsShapefile);
-            log(mRes.ToString());
+            if (mRes != null)
+            {
+                log(mRes.ToString());
+            }
+            else
+            {
+                log("Nothing decoded");
+            }
         }
 
         private bool hasSelection()
@@ -371,16 +389,6 @@ namespace norplan.adm.qrtoolui
         private void tsbtnOpenLink_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(DecodedUrl);
-        }
-
-        private void frmMain_ResizeBegin(object sender, EventArgs e)
-        {
-            IsResizing = true;
-        }
-
-        private void frmMain_ResizeEnd(object sender, EventArgs e)
-        {
-            IsResizing = false;
         }
 
         private void tsbtnExit_Click(object sender, EventArgs e)

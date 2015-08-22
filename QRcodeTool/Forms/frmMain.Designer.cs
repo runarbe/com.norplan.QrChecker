@@ -303,8 +303,6 @@
             this.Name = "frmMain";
             this.Text = "QR Code Checker";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResizeBegin += new System.EventHandler(this.frmMain_ResizeBegin);
-            this.ResizeEnd += new System.EventHandler(this.frmMain_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.pbMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSelection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFiles)).EndInit();
