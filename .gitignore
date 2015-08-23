@@ -3,3 +3,4 @@ packages/
 QRcodeTool/bin/
 QRcodeTool/obj/
 *.suo
+installer/output/
